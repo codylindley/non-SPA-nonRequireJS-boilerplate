@@ -1,7 +1,7 @@
-window.sfb.moduleC = function(win, doc, $, _, Modernizr){
+//global hcjj
+window.namespace = {};
 
-
-	var compiledModuleCTemplate = Handlebars.getTemplate('/modules/moduleC/moduleC.hbs');
+window.namespace.globals = function(win, doc, $, _, undefined){
 
 	//private properties
 	var privateValue = 'privateValue';
@@ -18,20 +18,16 @@ window.sfb.moduleC = function(win, doc, $, _, Modernizr){
 	//initalize
 	var initialize = function(){
 
-		var moduleCDataAndView = compiledModuleCTemplate({ name : 'I am module C' });
-
-		$('body').append(moduleCDataAndView);
-
 		console.log(privateValue,privateMethod(),publicValue,publicMethod());
 
 	}();
 
 	console.log(this); //here this is sfb object
 
-	//public interface
+	//public, can also place global constants here
 	return {
 		publicValue:publicValue,
 		publicMethod:publicMethod
 	};
 
-}.call(window.sfb, window, document, jQuery, _, Modernizr /*, omitted undefined here */);
+}.call(window.namespace, window, document, jQuery, _,  undefined/*, omitted undefined here */);
