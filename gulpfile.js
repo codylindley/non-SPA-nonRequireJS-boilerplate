@@ -5,6 +5,8 @@ var bundle = require('gulp-bundle');
 var runSequence = require('run-sequence');
 var cleanhtml = require('gulp-cleanhtml');
 var imagemin = require('gulp-imagemin');
+var replace = require('gulp-replace');
+var imageop = require('gulp-image-optimization');
 /*
 
 options to minify CSS below:
@@ -39,7 +41,7 @@ gulp.task('bundleCSSAndHtml', bundle('./public/**/*.html', {
 
 //bundle together js and css
 gulp.task('rewriteCSSAndHtmlforBundle', function () {
-    return gulp.src('./public/**/*.html')
+    return gulp.src(['./public/**/*.html','!./public/bower/**'])
         .pipe(useref())
         .pipe(gulp.dest('./publicBuild'));
 });
@@ -57,6 +59,21 @@ gulp.task('img', function () {
         .pipe(gulp.dest('./publicBuild'));
 });
 
+gulp.task('images', function(cb) {
+    gulp.src(['./public/**/*.png','./public/**/*.jpg','./public/**/*.gif','./public/**/*.jpeg']).pipe(imageop({
+        optimizationLevel: 5,
+        progressive: true,
+        interlaced: true
+    })).pipe(gulp.dest('./publicBuild')).on('end', cb).on('error', cb);
+});
+
+gulp.task('bustCache', function(){
+  gulp.src(['./publicBuild/**/*.html'])
+    .pipe(replace('.css', '?v=0.0'))
+    .pipe(replace('.js', '?v=0.0'))
+    .pipe(gulp.dest('./publicBuild'));
+});
+
 gulp.task('build', function(callback) {
-	runSequence('bundleCSSAndHtml','rewriteCSSAndHtmlforBundle','minifyHtml','img',callback);
+	runSequence('bundleCSSAndHtml','rewriteCSSAndHtmlforBundle','minifyHtml','bustCache',callback);
 });

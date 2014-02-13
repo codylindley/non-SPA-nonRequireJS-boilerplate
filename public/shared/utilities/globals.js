@@ -1,7 +1,7 @@
 //global hcjj
-window.hcjj = {};
+window.namespace = {};
 
-window.hcjj.globals = function(win, doc, $, _, undefined){
+window.namespace.globals = function(win, doc, $, _, undefined){
 
 	//private properties
 	var privateValue = 'privateValue';
@@ -30,4 +30,4 @@ window.hcjj.globals = function(win, doc, $, _, undefined){
 		publicMethod:publicMethod
 	};
 
-}.call(window.hcjj, window, document, jQuery, _,  undefined/*, omitted undefined here */);
+}.call(window.namespace, window, document, jQuery, _,  undefined/*, omitted undefined here */);
