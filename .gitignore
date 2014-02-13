@@ -2,5 +2,6 @@
 .log
 node_modules
 public/bower
+publicBuild
 public/*.min.*
 /*.log
