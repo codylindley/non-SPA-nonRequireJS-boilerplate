@@ -19,27 +19,32 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         
-        <!-- build:css /css/common.css -->
+        <!-- build:css /css/thridparty.css -->
         <link href="/shared/styles/overideCSSframeworks.css" rel="stylesheet">
-        <link href="/shared/styles/globals.css" rel="stylesheet">
         <!-- endbuild -->
 
         <!-- build:css /css/home/home.css -->
+        <link href="/shared/styles/globals.css" rel="stylesheet">
         <link href="/ui/home/home.css" rel="stylesheet">
         <!-- endbuild -->
 
     </head>
     <body>
+        
+        <img src="./images/google-glass-macro.jpg" width="50px" height="30px" alt="" />
+        <img src="/shared/images/google-glass-macro.jpg" width="30px" height="30px" alt=""/>
 
+        testt
 
+        @@include('src/shared/includes/include.html')
+        
         test
 
-        <!-- build:js /js/common.js -->
+        <!-- build:js /js/thirdparty.js -->
         <script type="text/javascript" src="/bower/headjs/dist/1.0.0/head.js"></script>
         <script type="text/javascript" src="/bower/jquery/jquery.js"></script>
         <script type="text/javascript" src="/bower/lodash/dist/lodash.js"></script>
         <script type="text/javascript" src="/bower/handlebars/handlebars.js"></script>
-        <script type="text/javascript" src="/shared/utilities/globals.js"></script>
         <!-- endbuild -->
 
         <!--[if (gte IE 6)&(lte IE 8)]>
@@ -51,6 +56,7 @@
         <![endif]-->
 
         <!-- build:js /js/home/home.js -->
+        <script type="text/javascript" src="/shared/utilities/globals.js"></script>
         <script type="text/javascript" src="/ui/home/home.js" async></script>
         <!-- endbuild -->
 

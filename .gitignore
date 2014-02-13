@@ -1,7 +1,8 @@
 .DS_Store
 .log
 node_modules
-public/bower
-publicBuild
-public/*.min.*
+src/bower
+build
+production
+src/*.min.*
 /*.log
