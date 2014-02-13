@@ -1,0 +1,8 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^(www.)?htmlcssjsjobs.com$
+RewriteCond %{REQUEST_URI} !^/subdir/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /home/$1
+RewriteCond %{HTTP_HOST} ^(www.)?htmlcssjsjobs.com$
+RewriteRule ^(/)?$ home/index.html [L]
