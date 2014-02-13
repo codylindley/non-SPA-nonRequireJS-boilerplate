@@ -6,7 +6,41 @@ var runSequence = require('run-sequence');
 var cleanhtml = require('gulp-cleanhtml');
 var imagemin = require('gulp-imagemin');
 var replace = require('gulp-replace');
-var imageop = require('gulp-image-optimization');
+var removeLogs = require('gulp-removelogs');
+var size = require('gulp-filesize');
+var htmlhint = require("gulp-htmlhint");
+var csslint = require('gulp-csslint');
+var jshint = require('gulp-jshint');
+var jsonminify = require('gulp-jsonminify');
+
+var build = '0.0.0';
+
+gulp.task('htmlHint', function () {
+    gulp.src(['./public/**/*.html','!./public/bower/**'])
+    .pipe(htmlhint({htmlhintrc:'.htmlhintrc'}))
+    .pipe(htmlhint.reporter());
+});
+
+gulp.task('cssLint', function() {
+    gulp.src(['./public/**/*.css','!./public/bower/**'])
+    .pipe(csslint('.csslintrc'))
+    .pipe(csslint.reporter());
+});
+
+gulp.task('validatejsHintRc', function () {
+    gulp.src(['.jshintrcComments'])
+    .pipe(jsonminify())
+    .pipe(gulp.dest('./'));
+});
+
+gulp.task('jsHint', function() {
+    gulp.src(['./public/**/*.js','!./public/bower/**'])
+    .pipe(jshint('.jshintrc'))
+    .pipe(jshint.reporter());
+});
+
+//bundle together js and css
+
 /*
 
 options to minify CSS below:
@@ -48,32 +82,55 @@ gulp.task('rewriteCSSAndHtmlforBundle', function () {
 
 //minify html
 gulp.task('minifyHtml', function(){
-	return gulp.src('./publicBuild/**/*.html')
+	return gulp.src(['./publicBuild/**/*.html'])
     .pipe(cleanhtml())
     .pipe(gulp.dest('./publicBuild'));
 });
 
+//optimize images
 gulp.task('img', function () {
-    gulp.src(['./public/**/*.png','./public/**/*.jpg','./public/**/*.gif','./public/**/*.jpeg'])
+    gulp.src(['./public/**/*.png','./public/**/*.jpg','./public/**/*.gif','./public/**/*.jpeg','!./public/bower/**'])
         .pipe(imagemin())
         .pipe(gulp.dest('./publicBuild'));
 });
 
-gulp.task('images', function(cb) {
-    gulp.src(['./public/**/*.png','./public/**/*.jpg','./public/**/*.gif','./public/**/*.jpeg']).pipe(imageop({
-        optimizationLevel: 5,
-        progressive: true,
-        interlaced: true
-    })).pipe(gulp.dest('./publicBuild')).on('end', cb).on('error', cb);
-});
-
+//add cache bust, based on build 
 gulp.task('bustCache', function(){
-  gulp.src(['./publicBuild/**/*.html'])
-    .pipe(replace('.css', '?v=0.0'))
-    .pipe(replace('.js', '?v=0.0'))
+    gulp.src(['./publicBuild/**/*.html'])
+    .pipe(replace('.css"', '.css?v='+build+'"'))
+    .pipe(replace('.js"', '.js?v='+build+'"'))
     .pipe(gulp.dest('./publicBuild'));
 });
 
-gulp.task('build', function(callback) {
-	runSequence('bundleCSSAndHtml','rewriteCSSAndHtmlforBundle','minifyHtml','bustCache',callback);
+gulp.task('removeLogs', function(){
+    gulp.src(['./publicBuild/**/*.js'])
+    .pipe(removeLogs())
+    .pipe(gulp.dest('./publicBuild'))
+    .pipe(size());
 });
+
+gulp.task('validate', function(callback) {
+    runSequence(
+        'htmlHint',
+        'cssLint',
+        'validatejsHintRc',
+        'jsHint',
+    callback);
+});
+
+gulp.task('build', function(callback) {
+	runSequence(
+        'htmlHint',
+        'cssLint',
+        'validatejsHintRc',
+        'jsHint',
+        'bundleCSSAndHtml',
+        'rewriteCSSAndHtmlforBundle',
+        'minifyHtml',
+        'img',
+        'bustCache',
+        'removeLogs',
+    callback);
+});
+
+
