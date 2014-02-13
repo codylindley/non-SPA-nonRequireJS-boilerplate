@@ -1,1 +1,0 @@
-window.hcjj.home=function(){{var n="privateValue",o=function(){return n},u="publicValue",e=function(){return u};!function(){console.log(n,o(),u,e())}()}return console.log(this),{publicValue:u,publicMethod:e}}.call(window.sfb,window,document,jQuery,_,void 0);
