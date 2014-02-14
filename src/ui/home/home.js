@@ -1,4 +1,4 @@
-window.namespace.home = function(win, doc, $, _, undefined){
+window.namespace.home = function(win, doc, $, _){
 
 	//private properties
 	var privateValue = 'privateValue';
@@ -27,4 +27,4 @@ window.namespace.home = function(win, doc, $, _, undefined){
 		publicMethod:publicMethod
 	};
 
-}.call(window.namespace, window, document, jQuery, _, undefined /*, omitted undefined here */);
+}.call(window.namespace, window, document, jQuery, _);

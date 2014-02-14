@@ -1,7 +1,7 @@
-//global hcjj
+//global names
 window.namespace = {};
 
-window.namespace.globals = function(win, doc, $, _, undefined){
+window.namespace.globals = function(win, doc, $, _){
 
 	//private properties
 	var privateValue = 'privateValue';
@@ -30,4 +30,4 @@ window.namespace.globals = function(win, doc, $, _, undefined){
 		publicMethod:publicMethod
 	};
 
-}.call(window.namespace, window, document, jQuery, _,  undefined/*, omitted undefined here */);
+}.call(window.namespace, window, document, jQuery, _);
